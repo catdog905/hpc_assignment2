@@ -1,0 +1,3 @@
+/home/yaroslav/Study/HighPerformance/assignment2/cmake-build-debug/CMakeFiles/assignment2.dir
+/home/yaroslav/Study/HighPerformance/assignment2/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/yaroslav/Study/HighPerformance/assignment2/cmake-build-debug/CMakeFiles/rebuild_cache.dir
