@@ -155,7 +155,7 @@ void renderGrid(vector<vector<point_t>> grid) {
         for (int i = 0; i < grid.size(); i++) {
             for (int j = 0; j < grid[0].size(); j++) {
                 point_t point = grid[i][j];
-                fprintf(pipe, "%f %f %f\n", point.x, point.t, 0);
+                fprintf(pipe, "%f %f %f\n", point.x, point.t, point.value);
             }
         }
 
@@ -166,89 +166,26 @@ void renderGrid(vector<vector<point_t>> grid) {
     }
 }
 
-//int main() {
-//    int spatial_step_number = 20;
-//    int time_step_number = 100;
-//    cout << "hello";
-//    interval_t x_domain = {0, 1};
-//    interval_t t_domain = {0, 2};
-////    vector<vector<point_t>> serial_solution =
-////            serial_approach(
-////                    prepareGrid(x_domain, t_domain, spatial_step_number, time_step_number),
-////                    spatial_step_number,
-////                    time_step_number
-////            );
-//    renderGrid(
-//            prepareGrid(x_domain, t_domain, spatial_step_number, time_step_number));
-//
-//    std::cout << "Hello, World!" << std::endl;
-//    return 0;
-//}
+int main() {
+    int spatial_step_number = 200;
+    int time_step_number = 1000;
+    cout << "hello";
+    interval_t x_domain = {0, 1};
+    interval_t t_domain = {0, 2};
+    vector<vector<point_t>> serial_solution =
+            serial_approach(
+                    prepareGrid(x_domain, t_domain, spatial_step_number, time_step_number),
+                    spatial_step_number,
+                    time_step_number
+            );
+    renderGrid(
+            prepareGrid(x_domain, t_domain, spatial_step_number, time_step_number));
 
-int main()
-{
-
-    //#ifdef WIN32
-    FILE* pipe = popen("gnuplot -persist", "w");
-    //#else
-    //    FILE* pipe = popen(GNUPLOT_NAME, "w");
-    //#endif
-
-    int N = 500;
-    double x0 = -5;
-    double xN = 5;
-    double y0 = -5;
-    double yN = 5;
-    double hx = (xN - x0) / (N - 1);
-    double hy = (yN - y0) / (N - 1);
-    double* x = new double[N];
-    double* y = new double[N];
-    double** z = new double*[N];
-    for (int i = 0; i < N+1; ++i) {
-        z[i] = new double[N];
-    }
-    for (int i = 0; i < N+1; i++)
-    {
-        x[i] = x0 + i * hx;
-        for (int j = 0; j < N+1; j++)
-        {
-            y[j] = y0 + j * hy;
-            z[i][j] = sin(sqrt(x[i]*x[i] + y[j]*y[j]))/sqrt(x[i] * x[i] + y[j] * y[j]);
-        }
-    }
-
-    if (pipe != NULL)
-    {
-        fprintf(pipe, "set terminal png\n");
-        fprintf(pipe, "set output \"2D map.png\"\n");
-        fprintf(pipe, "set view map\n");
-        fprintf(pipe, "set dgrid3d\n");
-        fprintf(pipe, "set xrange[-5.0:5.0]\n");
-        fprintf(pipe, "set yrange[-5.0:5.0]\n");
-        fprintf(pipe, "set zrange[-0.25:1.0]\n");
-        fprintf(pipe, "set samples 25\n");
-        fprintf(pipe, "set isosamples 20\n");
-        fprintf(pipe, "set pm3d map interpolate 0,0\n"); // interpolate 0, 0
-        fprintf(pipe, "set palette rgbformulae 22,13,-31\n");
-        fprintf(pipe, "set title \"2D map\"\n");
-        fprintf(pipe, "splot \"-\" using 1:2:3 with pm3d\n");
-
-
-        for (int i = 0; i < N+1; i++) {
-            for (int j = 0; j < N+1; j++) {
-                fprintf(pipe, "%f %f %f\n", x[i], y[j], z[i][j]);
-            }
-        }
-
-        fprintf(pipe, "e\n");
-        fflush(pipe);
-        //#ifdef WIN32
-        pclose(pipe);
-        //#else
-        //        pclose(pipe);
-        //#endif
-    }
+    std::cout << "Hello, World!" << std::endl;
+    return 0;
 }
+
+
 
 
 
